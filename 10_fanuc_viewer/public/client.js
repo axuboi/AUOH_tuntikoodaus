@@ -1,12 +1,13 @@
 import * as THREE from "three"; // Also installed three "npm install three".
-import {OrbitControls} from "/OrbitControls.js"
+import {OrbitControls} from "/OrbitControls.js";
+import {STLLoader} from "/STLLoader.js";
 
 const scene = new THREE.Scene();
 const renderer = new THREE.WebGLRenderer();
 
 const aspect = window.innerWidth / window.innerHeight;
 const camera = new THREE.PerspectiveCamera(75, aspect);
-camera.position.z = 10;
+camera.position.z = 3;
 renderer.setPixelRatio(window.devicePixelRatio);
 renderer.setSize(window.innerWidth, window.innerHeight);
 document.body.appendChild(renderer.domElement);
@@ -31,6 +32,27 @@ let controls = new OrbitControls(camera, renderer.domElement);
     });
     let mesh = new THREE.Mesh(geometry, material);
     scene.add(mesh);
+}
+
+let default_material = new THREE.MeshPhongMaterial({
+   color: 0x0000ff
+});
+
+const stl_loader = new STLLoader();
+const load_stl = (url)=>{
+    return new Promise((resolve)=>{
+        stl_loader.load(url, resolve);
+    });
+}
+
+{   // robot
+    let base_geometry = await load_stl();
+
+    load_stl("./FANUC_R2000iA165F-STL/BASE.stl").then((geometry)=>{
+        geometry.scale(0.001, 0.001, 0.001);
+        let mesh = new THREE.Mesh(geometry, default_material);
+        scene.add(mesh);
+    });
 }
 
 const render = ()=>{
