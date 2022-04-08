@@ -13,5 +13,4 @@ const schema = new mongoose.Schema( // luodaan uusi mongoose skeema ja määrite
     }
 );
 
-
 module.exports = mongoose.model("alarm", schema); // exportataan model, jolla nimi ja skeema.
