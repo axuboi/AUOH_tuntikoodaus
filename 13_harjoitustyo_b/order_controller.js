@@ -1,5 +1,9 @@
 const order_model = require("./order_model"); // Add order_model from order_model.js.
 
+let update = false;
+let connections = [];
+let number_of_connections = 0;
+
 // CREATE
 const api_post_order = (req, res) => {
     let order = order_model(req.body);
@@ -38,6 +42,7 @@ const api_get_order = (req, res) => {
     .then((order) => {
         console.log("Order {" + id + "} listed succesfully.");
         res.send(order);
+        update = true;
     }).catch((err) => {
         console.log("500: Could not find order " + id + ". " + err.message);
         res.status(500); // Give internal error.
@@ -81,3 +86,34 @@ module.exports.api_get_orders = api_get_orders;
 module.exports.api_get_order = api_get_order;
 module.exports.api_put_order = api_put_order;
 module.exports.api_delete_order = api_delete_order;
+
+if (update = true) {
+
+    update = false;
+}
+
+const broadcast_message = (message)=>{
+    for(let id in connections){
+        const socket = connections[id];
+        socket.emit("server-to-client", message);
+    }
+}
+
+// handle the web socket
+io.on("connection", (socket)=>{
+    connections[socket.id] = socket;
+    number_of_connections++;
+
+    console.log("Client connected. Number of connections: ", number_of_connections);
+    socket.on("disconnect", (socket)=>{
+        delete connections[socket.id];
+        number_of_connections--;
+        console.log("Client disconnected. Number of connections: ", number_of_connections); 
+    });
+    
+    socket.on("client-to-server", (message)=>{
+        broadcast_message(message);
+        console.log(message);
+        console.log("tää on client to server");
+    })
+})
