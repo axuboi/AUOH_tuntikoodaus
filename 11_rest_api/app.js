@@ -16,6 +16,7 @@ app.post("/api/alarm", alarm_controller.api_post_alarm); // create a alarm
 app.get("/api/alarms", alarm_controller.api_get_alarms); // get all alarms
 app.get("/api/alarm/:id", alarm_controller.api_get_alarm); // get alarm by id
 app.put("/api/alarm/:id", alarm_controller.api_put_alarm); // update alarm
+app.delete("/api/alarm/:id", alarm_controller.api_delete_alarm); // delete alarm
 
 const db_uri = "mongodb+srv://db_user:nUIuj38QIhBoC4ku@cluster0.okfky.mongodb.net/alarm_db?retryWrites=true&w=majority"; // https://cloud.mongodb.com/v2/62502034c269cb499a563e7d#clusters
 mongoose.connect(db_uri, {}).then(()=>{ // otetaan yhteys MongoDB tietokantaan
