@@ -4,11 +4,11 @@ const schema = new mongoose.Schema( // luodaan uusi mongoose skeema ja määrite
     {
         reason:{
             type: String,
-            required: True
+            required: true
         },
         status:{
             type: String,
-            required: True
+            required: true
         }
     }
 );
