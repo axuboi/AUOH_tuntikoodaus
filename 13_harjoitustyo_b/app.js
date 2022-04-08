@@ -1,14 +1,18 @@
 // 1. npm init
 // 2. npm install express
 // 3. npm install mongoose
+// 4. npm install socket-io
 
 const express = require("express"); // Add express library.
 const mongoose = require("mongoose"); // Add mongoose library.
 const order_controller = require("./order_controller.js"); // Add order_controller.js to use.
 const body_parser = require("body-parser"); // Add body parser to use.
+
 const PORT = process.env.PORT | 8081; // Define port.
 
 const app = express();
+const server = require("http").createServer(app); // Create a http server.
+const io = require("socket.io")(server); // Add socket.io library.
 app.use(body_parser.json()); // App shall use body-parser's JSON format.
 
 // CRUD commands defined in order_controller.js.
@@ -19,9 +23,16 @@ app.get("/api/order/:id", order_controller.api_get_order); // Get one order by i
 app.put("/api/order/:id", order_controller.api_put_order); // Update a order.
 app.delete("/api/order/:id", order_controller.api_delete_order); // Delete a order.
 
+
+
 const db_uri = "mongodb+srv://db_user_01:CKa6e2mo6Kxsm99x@cluster0.znacf.mongodb.net/machining_order_database?retryWrites=true&w=majority";
 mongoose.connect(db_uri, {}).then(()=>{ // Create a connection to given MongoDB database.
     console.log("Connected to machining_order_database");
     console.log("Listening to port: " + PORT);
-    app.listen(PORT); // App may receive requests only after connection creation.
+    //app.listen(PORT); // App may receive requests only after connection creation.
+    app.use(express.static("public"));
+    server.listen(PORT);
 });
+
+
+
