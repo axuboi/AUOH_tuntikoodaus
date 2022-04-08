@@ -6,6 +6,7 @@ const api_post_order = (req, res) => {
     order
         .save()
         .then((order) => {
+            console.log("Order created succesfully.");
             res.send(order);
         })
         .catch((err) => { // Catch any errors.
@@ -20,6 +21,7 @@ const api_get_orders = (req, res) => {
     order_model
     .find({}) // Empty object as a filter will return all orders.
     .then((orders) => {
+        console.log("Orders listed succesfully.");
         res.send(orders);
     }).catch((err) => {
         console.log("500: Could not find orders. " + err.message);
@@ -34,6 +36,7 @@ const api_get_order = (req, res) => {
     order_model
     .findById(id)
     .then((order) => {
+        console.log("Order {" + id + "} listed succesfully.");
         res.send(order);
     }).catch((err) => {
         console.log("500: Could not find order " + id + ". " + err.message);
@@ -48,6 +51,7 @@ const api_put_order = (req, res) => {
     order_model
     .findByIdAndUpdate(id, req.body)
     .then((order) => {
+        console.log("Order {" + id + "} updated succesfully.");
         res.send(order);
     }).catch((err) => {
         console.log("500: Could not update order " + id + ". " + err.message);
@@ -62,6 +66,7 @@ const api_delete_order = (req, res) => {
     order_model
     .findByIdAndDelete(id)
     .then((order) => {
+        console.log("Order {" + id + "} deleted succesfully.");
         res.send(order);
     }).catch((err) => {
         console.log("500: Could not delete order " + id + ". " + err.message);
@@ -74,5 +79,5 @@ const api_delete_order = (req, res) => {
 module.exports.api_post_order = api_post_order;
 module.exports.api_get_orders = api_get_orders;
 module.exports.api_get_order = api_get_order;
-module.exports.api_put_order = api_get_order;
+module.exports.api_put_order = api_put_order;
 module.exports.api_delete_order = api_delete_order;
