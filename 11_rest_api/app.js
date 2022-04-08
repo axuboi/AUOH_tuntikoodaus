@@ -14,8 +14,8 @@ app.use(body_parser.json()); // käsketään apin käyttää body-parserin json-
 // CREATE
 app.post("/api/alarm", alarm_controller.api_post_alarm);
 
-const db_url = "mongodb+srv://db_user:nUIuj38QIhBoC4ku@cluster0.okfky.mongodb.net/alarm_db?retryWrites=true&w=majority";
-mongoose.connect(db_url, {}).then(()=>{ // otetaan yhteys MongoDB tietokantaan
+const db_uri = "mongodb+srv://db_user:nUIuj38QIhBoC4ku@cluster0.okfky.mongodb.net/alarm_db?retryWrites=true&w=majority"; // https://cloud.mongodb.com/v2/62502034c269cb499a563e7d#clusters
+mongoose.connect(db_uri, {}).then(()=>{ // otetaan yhteys MongoDB tietokantaan
     console.log("Connected to MongoDB"); // yhdistetään ensin tietokantaan
 
     console.log("Listening to port: " + PORT);
