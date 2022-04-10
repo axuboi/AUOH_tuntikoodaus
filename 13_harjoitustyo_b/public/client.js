@@ -1,6 +1,9 @@
 let socket = io();
 
-socket.on("server-to-client", (message) => {
+let i = 0;
+
+socket.on("order_updated", (data) => {
     const messages = document.getElementById("messages");
-    messages.innerHTML += message + "<br>";
+    messages.innerHTML += "Orders updated " + i + " times.<br>";
+    i++;
 });
